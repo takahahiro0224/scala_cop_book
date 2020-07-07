@@ -86,3 +86,20 @@ implicit val naturalAdditive: Additive[Natural] = new Additive[Natural] {
 }
 
 combine(Natural(1), Natural(2))
+
+// Enrich my library
+// implicit conversionを組み合わせることで、あたかも既存のデータ型に対してメソッドが定義されているか
+// 見せかけることができる
+
+implicit class ShowOp[A](a: A) {
+  def show(implicit sa: Show[A]): String =
+    sa.show(a)
+}
+100.show
+Cat("moko").show
+
+implicit class AdditiveOp[A](a: A) {
+  def combine(b: A)(implicit aa: Additive[A]): A =
+    aa.combine(a,b)
+}
+Natural(1) combine Natural(2)
